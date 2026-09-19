@@ -6,25 +6,16 @@ Private working repository for the manuscript:
 
 ## Repository scope
 
-This private snapshot intentionally contains only:
+This private snapshot intentionally contains only the paper method itself and the main experiment entry. It does **not** contain comparator algorithms, full ablation suites, transfer-terrain batches, runtime batches, PX4/Gazebo scripts, or the complete paper-result archive.
 
-- the proposed BI-MOEA/D main algorithm;
-- the Block Inheritance (BI) implementation;
-- the Direction-Compatible Replacement (DCR) logic embedded in the main MOEA/D-DE engine;
-- the main Exact-6000 experiment driver.
+## Included code
 
-Comparator implementations, full ablation suites, external-DEM experiments, runtime batches, PX4/Gazebo scripts, and complete paper-result archives are intentionally excluded.
-
-## Paper-to-code mapping
-
-- `BI_MOEAD_UAV.m`: paper-facing entry point.
-- `algorithm/NAV_PBA_DQRF_DIVERSE_DFE_MOEAD_DE_UAV.m`: frozen paper-method configuration.
-- `algorithm/NAV_APDP_MOEAD_DE_UAV.m`: main MOEA/D-DE search engine containing local-guide selection, DE donor construction, objective-pressure calculation, success-history DE control, and DCR replacement.
-- `algorithm/NAV_PBD_BlockCrossover.m`: BI crossover implementation.
-- `algorithm/NAV_PBD_BlockCrossoverFast.m`: equivalent cached BI implementation used by the frozen fast search path.
-- `experiment/RUN_MAIN_BIMOEAD_EXACT6000.m`: primary S1-S4 / 30-run / Exact-6000 experiment driver.
-
-Historical internal MATLAB function names are retained to preserve consistency with the frozen manuscript experiments.
+- `BI_MOEAD_UAV.m` — paper-facing entry point.
+- `algorithm/NAV_PBA_DQRF_DIVERSE_DFE_MOEAD_DE_UAV.m` — frozen paper-method switch/configuration.
+- `algorithm/BI_MOEAD_Core.m` — compact main search core implementing local-guide selection, current-to-local-best/1 differential mutation, objective-pressure routing, BI, DCR, and success-history DE adaptation.
+- `algorithm/NAV_PBD_BlockCrossover.m` — Block Inheritance operator.
+- `algorithm/NAV_GenerateWeights.m` — fixed nonuniform reference-direction construction used by the method.
+- `experiment/RUN_MAIN_BIMOEAD_EXACT6000.m` — main S1–S4, 30-run, Exact-6000 experiment driver for BI-MOEA/D only.
 
 ## Main manuscript settings
 
@@ -32,8 +23,8 @@ Historical internal MATLAB function names are retained to preserve consistency w
 - Intermediate navigation nodes: 10
 - Decision dimension: 30
 - Search-stage budget: 6000 complete path evaluations
-- BI-MOEA/D neighborhood size: 6
-- Initial success-history memories: M_F = M_CR = 0.5
+- Neighborhood size: 6
+- Success-history memories initialized at M_F = M_CR = 0.5
 - Gaussian sampling standard deviation: 0.1
 - External archive capacity: 30
 - Archive grid divisions: 7
@@ -41,8 +32,12 @@ Historical internal MATLAB function names are retained to preserve consistency w
 
 The 30 shared initial solutions are evaluated inside the 6000-evaluation search-stage budget.
 
+## Intentionally omitted from this private snapshot
+
+The UAV geometry/evaluator, terrain files, shared feasible-pool builder, comparison methods, complete statistical post-processing, ablation/transfer/runtime/PX4 experiment suites, and raw result archives are intentionally not uploaded here yet.
+
 ## Status
 
 **Private / not for public release yet.**
 
-No public license is attached at this stage. Supporting evaluator/model files, terrain data, and the complete reproducibility package can be added before public release.
+No public license is attached at this stage. The complete reproducibility dependencies can be added when the authors are ready for public release.
