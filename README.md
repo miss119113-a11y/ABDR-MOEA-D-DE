@@ -6,16 +6,38 @@ Private working repository for the manuscript:
 
 ## Repository scope
 
-This private snapshot intentionally contains only the paper method itself and the main experiment entry. It does **not** contain comparator algorithms, full ablation suites, transfer-terrain batches, runtime batches, PX4/Gazebo scripts, or the complete paper-result archive.
+This repository follows the publication scope used by the NMOPSO paper code repository: it contains the proposed method and the minimum complete engineering components required to run the UAV path-planning method, rather than the full paper experiment suite.
 
-## Included code
+The target contents are:
 
-- `BI_MOEAD_UAV.m` — paper-facing entry point.
-- `algorithm/NAV_PBA_DQRF_DIVERSE_DFE_MOEAD_DE_UAV.m` — frozen paper-method switch/configuration.
-- `algorithm/BI_MOEAD_Core.m` — compact main search core implementing local-guide selection, current-to-local-best/1 differential mutation, objective-pressure routing, BI, DCR, and success-history DE adaptation.
-- `algorithm/NAV_PBD_BlockCrossover.m` — Block Inheritance operator.
-- `algorithm/NAV_GenerateWeights.m` — fixed nonuniform reference-direction construction used by the method.
-- `experiment/RUN_MAIN_BIMOEAD_EXACT6000.m` — main S1–S4, 30-run, Exact-6000 experiment driver for BI-MOEA/D only.
+- BI-MOEA/D main algorithm;
+- Block Inheritance (BI) and Direction-Compatible Replacement (DCR);
+- success-history DE parameter adaptation used by the frozen method;
+- UAV navigation-variable model and path decoding;
+- the four-objective evaluator and hard-feasibility checks;
+- feasible-solution initialization;
+- nondominated archive / decomposition support required by BI-MOEA/D;
+- one main MATLAB entry script;
+- the terrain data or a reproducible data-acquisition instruction;
+- plotting/visualization helpers;
+- representative example output;
+- README and third-party attribution where required.
+
+## Intentionally excluded
+
+The repository will not contain:
+
+- ECDE, NMOPSO, SPEA2, NSGA-III, MOEA/D-DE, MOEA/D-AWA, MOEA-2DE, or MOEA/D-STM source code;
+- the full BI×DCR ablation suite;
+- external-DEM transfer batches;
+- unified runtime benchmark batches;
+- PX4/Gazebo experiment scripts and ULog files;
+- the complete statistical post-processing suite;
+- large raw result archives.
+
+## Important implementation rule
+
+The public-facing method code must be taken from the frozen manuscript implementation. Historical internal MATLAB function names may be retained when necessary for reproducibility. A compact reimplementation is not a substitute for the frozen source.
 
 ## Main manuscript settings
 
@@ -30,14 +52,10 @@ This private snapshot intentionally contains only the paper method itself and th
 - Archive grid divisions: 7
 - Archive refresh stride: 4 generations
 
-The 30 shared initial solutions are evaluated inside the 6000-evaluation search-stage budget.
-
-## Intentionally omitted from this private snapshot
-
-The UAV geometry/evaluator, terrain files, shared feasible-pool builder, comparison methods, complete statistical post-processing, ablation/transfer/runtime/PX4 experiment suites, and raw result archives are intentionally not uploaded here yet.
+The 30 shared initial solutions are formally evaluated inside the 6000-evaluation search-stage budget.
 
 ## Status
 
 **Private / not for public release yet.**
 
-No public license is attached at this stage. The complete reproducibility dependencies can be added when the authors are ready for public release.
+No public license for the authors' BI-MOEA/D code has been selected at this stage. Any redistributed third-party terrain/data asset must retain its original attribution/license notice.
