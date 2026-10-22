@@ -9,3 +9,4 @@ progress=min(max(double(progress),0),1);
 value=double(initialValue)+(double(finalValue)-double(initialValue))*progress;
 value=min(max(value,0),1);
 end
+

@@ -579,3 +579,4 @@ keys={'NAV_COST_MODE','NAV_DISABLE_MODEL_PLOT','NAV_SCENARIO_ID','NAV_SEARCH_FAS
 for i=1:numel(keys),try,if isappdata(0,keys{i}),rmappdata(0,keys{i});end,catch,end,end
 end
 function localCleanup(),localClearTaskState();close all force;end
+

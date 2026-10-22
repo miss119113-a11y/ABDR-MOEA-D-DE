@@ -1,4 +1,4 @@
-function outDir = NAV_LCAD_ExportParetoQuality(formalDir, outDir)
+﻿function outDir = NAV_LCAD_ExportParetoQuality(formalDir, outDir)
 %NAV_LCAD_EXPORTPARETOQUALITY Export archive-level Pareto quality tables.
 % Metrics are normalized per scenario and computed from task MAT archives:
 % HV_MC (higher is better), IGD (lower is better), SpreadNN, archive sizes.
@@ -201,4 +201,5 @@ fprintf(fid,'Source formal directory: `%s`\n\n', formalDir);
 fprintf(fid,'Metrics are computed from task archives and normalized within each scenario.\n');
 fclose(fid);
 end
+
 

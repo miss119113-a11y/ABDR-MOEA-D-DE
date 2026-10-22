@@ -1,4 +1,4 @@
-function rootDir = lcad_project_root()
+﻿function rootDir = lcad_project_root()
 %LCAD_PROJECT_ROOT Return the root folder of this clean ARCMOVWO package.
 
 thisFile = mfilename('fullpath');
@@ -14,3 +14,4 @@ if exist(fullfile(rootDir, 'setup_lcad_paths.m'), 'file') ~= 2
     end
 end
 end
+
