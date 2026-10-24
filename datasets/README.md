@@ -1,19 +1,13 @@
-# ABDR-MOEA/D-DE experimental datasets (2026-10-24)
+# ABDR-MOEA/D-DE experimental data index
 
-This directory records the evidence archive structure for the IEEE Access UAV multiobjective path-planning study. The large experimental archives will be distributed as **GitHub Release assets**, not committed as ordinary Git files.
+A **curated experimental dataset has been staged in this repository** under [datasets/curated](curated/README.md) on 2026-10-24.
 
-Expected nine archives:
+- Main comparison: 1320 per-run entries.
+- Factorial ablation: 960 per-run entries.
+- Independent serial runtime: 1320 per-run entries.
+- External Crater Lake + Mount St. Helens: 4320 per-run entries, explicitly labeled historic LEGACY_H5 in source archives.
+- PX4 flight performance: 120 per-mission entries, separated into new proposed, new ToP, and historical comparison cohorts.
 
-1. `ABDR_MAIN_COMPARISON_1320_20261024.zip` — 11 algorithms, 4 scenarios, 30 runs; source matrices and statistics.
-2. `ABDR_ABLATION_960_20261024.zip` — 8 configurations, 4 scenarios, 30 runs.
-3. `ABDR_SERIAL_RUNTIME_1320_20261024.zip` — independent serial runtime benchmark.
-4. `ABDR_EXTERNAL_PART1_CRATER_2160_LEGACY_H5_20261024.zip` — Crater Lake external DEM, H5-labeled cohort.
-5. `ABDR_EXTERNAL_PART2_MOUNT_2160_LEGACY_H5_20261024.zip` — Mount St. Helens external DEM, H5-labeled cohort.
-6. `ABDR_PX4_PART1_PROPOSED_FORMAL20_SITL_20261024.zip` — proposed method, 20 SITL runs.
-7. `ABDR_PX4_PART2_TOP20_AND_REANALYSIS_20261024.zip` — ToP, 20 SITL runs and analyses.
-8. `ABDR_PX4_PART3_HISTORICAL_FOUR_METHODS_20261024.zip` — 80 historical records for four baselines.
-9. `ABDR_PX4_PART4_PREFLIGHT_AND_LEGACY_COHORT_20261024.zip` — preflight and legacy cohorts.
+The curated CSV files exclude bulk binary MATLAB/MAT, PX4 ULog, third-party terrain rasters, repeat project trees, and historical preflight archives. Full original archives remain with the authors. See [curated/README.md](curated/README.md) for limitations and original safety-pass values and [curated/MANIFEST_SHA256.csv](curated/MANIFEST_SHA256.csv) for the source archives.
 
-**Status: upload preparation only; no public data release yet.** Archive names and historical/legacy cohort tags are preserved deliberately. Archive-specific documentation governs run provenance and safety definitions. Before publishing large archives, review any third-party terrain and external code distribution rights and remove unintended private files. Do not infer that archived historical cohorts correspond to the identical final-controller implementation.
-
-The release will receive a stable URL once the nine archives have been uploaded and the repository made public.
+**Publication status:** These files have been uploaded to the GitHub repository, which is presently private. They are *not yet publicly accessible*. Public availability will begin only when the owner makes the repository public. Do not add an unpublished repository URL to a manuscript as an already-public dataset link.
