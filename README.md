@@ -1,35 +1,70 @@
 # ABDR-MOEA/D-DE
 
-MATLAB source, experiment scripts, and source-traceable numerical results for constrained multiobjective UAV path planning.
+**Parameter-Adaptive Multiobjective Evolutionary Algorithm Based on Decomposition With Differential Evolution, Block Inheritance, and Direction-Quota Replacement for Constrained UAV Path Planning**
 
-## Repository structure
+This repository contains the MATLAB implementation of **ABDR-MOEA/D-DE**, experiment scripts, numerical results, and three terrain digital elevation models (DEMs) for constrained 3-D multiobjective UAV path planning.
 
-- [algorithm/](algorithm/) — one proposed ABDR-MOEA/D-DE optimizer plus required MATLAB dependencies.
-- [experiments/](experiments/) — MATLAB single/batch runs, existing-results analysis, and Python verification/unpacking.
-- [results/](results/) — E01–E06 archived paper results and group statistics.
+## Method
 
-We do not distribute implementation source code for competing methods.
+ABDR-MOEA/D-DE combines three mechanisms in a decomposition-based differential evolution framework:
 
-## Results
+- **Block Inheritance (BI):** jointly inherits physically related navigation-variable groups for segment extension, horizontal steering, and climb.
+- **Direction-Quota Replacement (DQR):** associates feasible offspring with decomposition directions and limits repeated replacement of the same direction within a generation.
+- **Multi-memory SHDE:** adapts differential-evolution mutation and crossover parameters from successful search improvements.
 
-The E01–E05 run-level CSV data and statistics are unchanged. For PX4, the paper-matched 120-mission cohort is **[E06_PX4_Paper_Missions_120.csv.gz](results/E06_PX4_Paper_Missions_120.csv.gz)**. Its statistics are in [results/statistics/E06_PX4_Paper_Summary.csv](results/statistics/E06_PX4_Paper_Summary.csv). The earlier incompatible U28/preflight CSV is preserved under [results/diagnostics/](results/diagnostics/) and is **not** Table 9.
+The problem minimizes route inefficiency, threat exposure, terrain-relative altitude deviation, and trajectory smoothness, subject to flight and safety constraints.
 
-To verify the results or produce an ordinary PX4 CSV using Python 3 (no extra packages):
+## Repository layout
+
+| Folder | Contents |
+|---|---|
+| [algorithm/](algorithm/) | Current ABDR-MOEA/D-DE MATLAB algorithm and required helper functions |
+| [experiments/](experiments/) | Algorithm configuration, experiment runners, and result-checking scripts |
+| [results/](results/) | Main comparison, mechanism ablation, runtime, external-terrain and PX4 simulation outcomes (E01–E06) |
+| [maps/](maps/) | Christmas Island, Crater Lake and Mount St. Helens DEM GeoTIFFs (compressed archive with automatic extraction) |
+
+Only the proposed optimizer is distributed. Comparison-method results are provided as data; comparator source codes are not included.
+
+## Quick start
+
+**Requirements:** MATLAB R2024b (the version used for the experiments), Python 3 to extract DEMs and check CSV records.
+
+Extract the three terrain maps after cloning:
+
 ```bash
+python maps/extract_maps.py
 python experiments/ABDR_Verify_Results.py
-python experiments/ABDR_Extract_PX4.py
 ```
 
-## MATLAB usage
+Then start MATLAB from the repository root:
 
 ```matlab
-addpath('algorithm','algorithm/core','experiments');
-opts.PoolDir='PATH_TO_ORIGINAL_SHARED_POOLS';
-opts.OutputDir='PATH_TO_OUTPUT';
-T=ABDR_Run_Experiments('main',opts);
-S=ABDR_Review_PX4();
+addpath('algorithm','algorithm/core','experiments','maps/terrain');
+p = ABDR_Config(260825101);
+[archive, best, history] = ABDR_MOEAD_DE(p);
 ```
 
-The optimizer uses 30 candidates, a 6000-function-evaluation limit, and 30 trials per scenario for the paper comparison. Exact reruns also require source-matched shared feasible initial pools, reference fronts and corresponding DEMs, none of which are redistributed here. The provided runners generate results for our method only.
+For the exact paper-style experiment runner, provide the corresponding common feasible initialization pools (and reference fronts when computing IGD+):
 
-**Research provenance limits:** E04/E05 include a legacy H5 controller cohort; PX4 includes a legacy-flown ULTRA20 cohort with unproven identity to the latest optimizer route hashes, and historical comparator data with incomplete flight payloads. Reproduced numbers are not proof of algorithm-version equivalence. Mechanism flags in some existing ablation runs also control ancillary operations. See [results/README.md](results/README.md) for details.
+```matlab
+opts.PoolDir = 'PATH_TO_SHARED_POOLS';
+opts.OutputDir = 'PATH_TO_OUTPUT';
+T = ABDR_Run_Experiments('main', opts);
+```
+
+The standard experimental budget is **6000 objective-function evaluations**, with **30 independent runs** per scenario. See [experiments/README.md](experiments/README.md) and [results/README.md](results/README.md) for details.
+
+## Experimental results
+
+The `results/` directory provides original recorded metrics for E01–E06:
+
+| Experiment | Coverage |
+|---|---|
+| E01: main comparison | 11 methods; 4 scenarios; 1320 records |
+| E02: ablation | 8 settings; 4 scenarios; 960 records |
+| E03: serial runtime | 11 methods; 4 scenarios; 1320 records |
+| E04: Crater Lake | 6 methods; 12 scenarios; 2160 records |
+| E05: Mount St. Helens | 6 methods; 12 scenarios; 2160 records |
+| E06: PX4–Gazebo SITL | 6 methods; 120 missions |
+
+The associated manuscript is under submission to *IEEE Access*. The present repository distributes the proposed MATLAB algorithm, experiments and numerical results for academic inspection; no comparator implementation is included.

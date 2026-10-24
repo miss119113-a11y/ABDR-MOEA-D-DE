@@ -1,17 +1,17 @@
 # ABDR-MOEA/D-DE MATLAB algorithm
 
-**Entry point:** `ABDR_MOEAD_DE.m`
+**Public entry point:** `ABDR_MOEAD_DE.m`
 
-**Main engine:** `ABDR_MOEAD_DE_ENGINE.m`
+**Algorithm engine:** `ABDR_MOEAD_DE_ENGINE.m`
 
-**Required helper:** `core/CODEX_ARCHIVE_GUIDE.m` (original audited implementation now restored, because the default `CodexArchiveGuide=true` path invokes it).
+**Required support code:** `core/`
 
-Other `core/` MATLAB files provide objectives/constraints, geometry, block crossover, direction-quota replacement, SHDE, and archive operations. No separate comparator optimizers or iteration snapshots are included.
+This is the complete algorithm implementation supplied in the October 24 release package, with the engine's MATLAB function name standardized for the paper. Its search logic is preserved: Block Inheritance (BI), Direction-Quota Replacement (DQR), and multi-memory success-history differential evolution (SHDE). Required evaluator, archive, geometry, and parameter-adaptation helpers are included.
 
 ```matlab
-addpath('algorithm','algorithm/core','experiments');
-p=ABDR_Config(260825101);
-[archive,best,history]=ABDR_MOEAD_DE(p);
+addpath('algorithm','algorithm/core','experiments','maps/terrain');
+p = ABDR_Config(260825101);
+[rep,best,history] = ABDR_MOEAD_DE(p);
 ```
 
-For manuscript-aligned experiments use `ABDR_Run_One` / `ABDR_Run_Experiments` with the original initialization pools and terrain. The algorithm engine was not rewritten during result reorganization. The current configured `TriadPBB` objective-pressure selector uses Tchebycheff contributions and is not identical to a rank-only selector; the manuscript/source difference is a remaining scientific provenance matter.
+Run `python maps/extract_maps.py` before calling the optimizer. For paper-matched batch experiments, use the scripts in `experiments/` with the study's shared initialization pools.

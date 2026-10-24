@@ -31,7 +31,7 @@ for name, (count, methods, scenarios, repeats) in TASKS.items():
     assert len({(x["Algorithm"], x["Scenario"], x["Run"]) for x in rows}) == len(rows), name
     print(f"OK {name}: {count} records")
 
-missions = read_csv(RESULTS / "E06_PX4_Paper_Missions_120.csv.gz")
+missions = read_csv(RESULTS / "E06_PX4_Paper_Missions_120.csv")
 summary = {x["Method"]: x for x in read_csv(RESULTS / "statistics" / "E06_PX4_Paper_Summary.csv")}
 continuous_rows = read_csv(RESULTS / "E06_PX4_Continuous_Clearance_40.csv")
 continuous = {x["MissionID"]: float(x["ContinuousMinTerrainClearanceM"]) for x in continuous_rows}

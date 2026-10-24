@@ -1,26 +1,29 @@
-# MATLAB experiment scripts and validation
+# Experiment scripts
+
+This directory includes MATLAB experiment routines for the proposed ABDR-MOEA/D-DE and scripts that inspect its archived numerical results.
 
 | File | Purpose |
 |---|---|
-| `ABDR_Config.m` | Current optimizer settings |
-| `ABDR_Run_One.m` | One proposed-method run with exact FE budget |
-| `ABDR_Run_Experiments.m` | Four main scenarios, eight ablation variants, runtime, or external DEM tests |
-| `ABDR_Review_Results.m` | Means/SD of stored optimization results |
-| `ABDR_Review_PX4.m` | Reads the corrected E06 paper mission cohort and reports completion, tracking, safety and mean metrics |
-| `ABDR_Verify_Results.py` | Checks paper result counts, group sizes and PX4 against saved summaries |
-| `ABDR_Extract_PX4.py` | Extracts paper-matched PX4 gzip CSV into ordinary CSV |
+| `ABDR_Config.m` | Proposed-method parameters and mechanism switches |
+| `ABDR_Run_One.m` | Execute one proposed-method task with the 6000-FE budget |
+| `ABDR_Run_Experiments.m` | Batch runners for main comparisons, ablation, timing, and external terrains |
+| `ABDR_Review_Results.m` | Recalculate mean and SD of stored optimization outcomes |
+| `ABDR_Review_PX4.m` | Review the 120 archived PX4 mission records |
+| `ABDR_Verify_Results.py` | Verify archived E01–E06 record counts and statistics |
 
-Run:
+Unpack the maps with `python maps/extract_maps.py` before running MATLAB. The main scenario data use the supplied Christmas Island TIFF, while external-terrain runs require their corresponding TIFF files.
+
+```matlab
+addpath('algorithm','algorithm/core','experiments','maps/terrain');
+opts.PoolDir = 'PATH_TO_SHARED_INITIAL_POOLS';
+opts.OutputDir = 'PATH_TO_OUTPUT';
+T = ABDR_Run_Experiments('main', opts);
+```
+
+Other experiment modes: `ablation`, `runtime`, `crater`, `mount`. Original shared feasible initialization pools and reference fronts are not included in this distribution. No competing algorithm source code or complete PX4/Gazebo installation is included.
+
+To inspect the provided recorded data without MATLAB:
+
 ```bash
 python experiments/ABDR_Verify_Results.py
-python experiments/ABDR_Extract_PX4.py
 ```
-MATLAB R2024b:
-```matlab
-addpath('experiments','algorithm','algorithm/core');
-opts.PoolDir='PATH_TO_ORIGINAL_SHARED_POOLS';
-opts.OutputDir='PATH_TO_OUTPUT';
-T=ABDR_Run_Experiments('main',opts);
-S=ABDR_Review_PX4();
-```
-Other tasks are `'ablation'`, `'runtime'`, `'crater'`, and `'mount'`. External terrain runs require source-matched terrain files and scenario definitions. These scripts do not include third-party algorithm implementations or a complete PX4/Gazebo simulator.

@@ -3,7 +3,7 @@ function S=ABDR_Review_PX4(dataFile)
 % Metric population: completed missions only; outcome denominator: all 20.
 if nargin<1 || isempty(dataFile)
     root=fileparts(fileparts(mfilename('fullpath')));
-    dataFile=fullfile(root,'results','E06_PX4_Paper_Missions_120.csv.gz');
+    dataFile=fullfile(root,'results','E06_PX4_Paper_Missions_120.csv');
 end
 root=fileparts(fileparts(mfilename('fullpath')));
 continuous=readtable(fullfile(root,'results','E06_PX4_Continuous_Clearance_40.csv'),'TextType','string');
