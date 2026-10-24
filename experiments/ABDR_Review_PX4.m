@@ -2,7 +2,7 @@ function S=ABDR_Review_PX4(csvFile)
 %ABDR_REVIEW_PX4 Distinguish mission completion and safety checks.
 if nargin<1 || isempty(csvFile)
     root=fileparts(fileparts(mfilename('fullpath')));
-    csvFile=fullfile(root,'datasets','paper_results','E06_PX4_Gazebo_SITL_120_Missions.csv');
+    csvFile=fullfile(root,'results','E06_PX4_Gazebo_SITL_120_Missions.csv');
 end
 T=readtable(csvFile,'TextType','string');
 labels=unique(T.Algorithm,'stable');

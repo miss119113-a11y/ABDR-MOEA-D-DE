@@ -1,19 +1,15 @@
-# ABDR-MOEA/D-DE MATLAB algorithm
+# Proposed algorithm: ABDR-MOEA/D-DE
 
-**Entry point:** `ABDR_MOEAD_DE.m`
+- `ABDR_MOEAD_DE.m` — single public MATLAB entry point.
+- `ABDR_MOEAD_DE_ENGINE.m` — current optimization engine.
+- `core/` — the directly required evaluation, geometry, constraints, Pareto, BI/DQR and success-history parameter-adaptation helper functions.
 
-**Core optimizer:** `ABDR_MOEAD_DE_ENGINE.m`
+The algorithm's MATLAB implementation and its numerical operations are unchanged by the repository layout update. Historical helper identifiers appearing inside the retained source are not separate algorithms or independently distributed comparator implementations.
 
-**Dependencies:** MATLAB helper routines in `core/`. These are objective/constraint evaluators, geometric and Pareto operations, and functions for BI, DQR and SHDE. No comparison-method optimizers are included.
-
-To use from MATLAB:
 ```matlab
-addpath('algorithm');
-addpath('algorithm/core');
-p = ABDR_Config(260825101);  % after adding experiments/ to path
+addpath('algorithm', 'algorithm/core', 'experiments');
+p = ABDR_Config(260825101);
 [archive,best,history] = ABDR_MOEAD_DE(p);
 ```
 
-Configure `NAV_COST_MODE`, `NAV_SCENARIO_ID`, the FE budget, terrain input and shared feasible initialization pool as described in [../experiments/README.md](../experiments/README.md). A direct optimizer call without environment configuration is **not** a paper-exact replication.
-
-The source uses a single final search engine with coupled BI, DQR and SHDE controls. Internal helper names retained by MATLAB for functional compatibility are not independent algorithms.
+For a manuscript-matched run, use `ABDR_Run_One` / `ABDR_Run_Experiments` with the original shared initialization pool and scenario inputs instead of relying on a bare optimizer invocation.

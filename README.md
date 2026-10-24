@@ -1,23 +1,42 @@
 # ABDR-MOEA/D-DE
 
-MATLAB implementation and experimental results for constrained multiobjective UAV path planning.
+MATLAB source code, experiment runners, and numerical results for constrained multiobjective UAV path planning.
 
-The proposed method combines **block inheritance (BI)**, **direction-quota replacement (DQR)**, and **success-history differential-evolution parameter adaptation (SHDE)**.
+## Repository contents
 
-## Repository structure
+| Folder | Contents |
+|---|---|
+| [algorithm/](algorithm/) | The proposed ABDR-MOEA/D-DE optimizer, entry point, engine, and required MATLAB helper functions. |
+| [experiments/](experiments/) | MATLAB configuration, proposed-method experiment runners, data review and validation scripts. |
+| [results/](results/) | E01–E06 paper experiment CSVs and accompanying summary statistics. |
 
-- [`algorithm/`](algorithm/) — the proposed ABDR-MOEA/D-DE algorithm and the helper functions it requires.
-- [`experiments/`](experiments/) — experiment configuration, single-run and batch runners, statistical summary and PX4 results-analysis code.
-- [`datasets/paper_results/`](datasets/paper_results/) — numerical results associated with the manuscript (E01–E06).
+**No implementations of competing optimizers are included.** Benchmark CSV files contain their measured results, not their source code.
 
-**No implementations of competing algorithms are distributed here.** The benchmark CSVs retain competitors' observed numerical results for comparison.
+## Validate the uploaded results
 
-## MATLAB
+Python 3 (standard library only):
 
-Tested source target: MATLAB R2024b. Call `ABDR_MOEAD_DE(params)` after adding `algorithm/` and `algorithm/core/` to the MATLAB path. Paper-scale runs use 30 solutions, 6000 function evaluations, and 30 repetitions per case. See [experiment instructions](experiments/README.md).
+```bash
+python experiments/ABDR_Verify_Results.py
+```
 
-The repository stores compact numerical output, not large binary flight logs or third-party terrain rasters. Original shared initialization pools, licensed terrain inputs and reference sets must be supplied separately for an exact paper-protocol rerun.
+## Run the proposed algorithm
 
-## Research results
+MATLAB R2024b:
 
-Use [the paper results index](datasets/paper_results/README.md) for experiment tables and CSV files. Raw numbers and recorded completion/safety flags are unchanged.
+```matlab
+addpath('algorithm', 'algorithm/core', 'experiments');
+opts.PoolDir = 'PATH_TO_SHARED_INITIAL_POOLS';
+opts.OutputDir = 'PATH_TO_NEW_OUTPUT';
+T = ABDR_Run_Experiments('main',opts);
+```
+
+The reported protocol uses a population of 30, a 6000-function-evaluation cap and 30 repetitions per scenario. See [experiment instructions](experiments/README.md) before running other tasks.
+
+## Data
+
+The six result tables cover an 11-method main comparison (1320 records), eight-setting ablation (960), serial runtime (1320), two external terrains (2160 records each), and PX4–Gazebo SITL (120 missions). See [results/README.md](results/README.md).
+
+Saved numerical values and recorded mission outcome flags have not been changed in this repository reorganization. The external-terrain numerical records include an earlier H5-controller cohort; the PX4 data contain separately identified flight cohorts. Do not treat a stored result as a newly executed run of the present source.
+
+Shared original initialization pools, external DEM rasters, frozen reference-front binaries, and raw PX4 ULogs are not distributed. The provided runners execute only our method, while the CSV tables preserve the published comparisons.

@@ -3,7 +3,7 @@ function S = ABDR_Review_Results(inputFile,outputFile)
 % This file reads numerical records only, not comparator algorithm source.
 if nargin<1 || isempty(inputFile)
     root=fileparts(fileparts(mfilename('fullpath')));
-    inputFile=fullfile(root,'datasets','paper_results','E01_Main_Comparison_1320_Runs.csv');
+    inputFile=fullfile(root,'results','E01_Main_Comparison_1320_Runs.csv');
 end
 T=readtable(inputFile,'TextType','string');
 assert(all(ismember({'Algorithm','Scenario'},T.Properties.VariableNames)), ...
