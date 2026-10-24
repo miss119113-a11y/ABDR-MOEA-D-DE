@@ -1,7 +1,26 @@
-# BIDR-MOEA/D-DE — IEEE Access source (2026-10-22)
+# ABDR-MOEA/D-DE
 
-The current **APB + DQR + five-memory SHDE** implementation is in [frozen_20261022](frozen_20261022/README.md). MATLAB R2024b entry: `frozen_20261022/BIMOEAD_DE.m`; functional demo: `frozen_20261022/RUN_BIDR_DEMO_MINIMAL.m`.
+**Experimental data and MATLAB research material for multiobjective UAV path planning**
 
-The input data files `ChrismasTerrain2.tif` and `demo_pool_S1.mat` are distributed with the downloadable frozen source package, not through this text-only GitHub sync. Copy both into `frozen_20261022/` to run the demo. Terrain/data redistribution requires checking original licensing terms.
+ABDR-MOEA/D-DE combines block inheritance (**BI**), direction-quota replacement (**DQR**), and success-history differential-evolution parameter adaptation (**SHDE**) within the MOEA/D-DE framework.
 
-Historical scripts under `algorithm/` and `experiment/` are retained for provenance; use `frozen_20261022/` for the revised manuscript. The repository is currently private; numerical result archives, third-party baselines, PX4 telemetry, and the full paper source are maintained separately.
+## Research data
+
+The reviewer-facing dataset is in **[datasets/paper_results](datasets/paper_results/README.md)**, covering:
+
+- E01 — Main algorithm comparison (1,320 runs)
+- E02 — Ablation experiments (960 runs)
+- E03 — Independent serial runtime (1,320 runs)
+- E04 — Crater Lake external-terrain evaluation (2,160 runs)
+- E05 — Mount St. Helens external-terrain evaluation (2,160 runs)
+- E06 — PX4-Gazebo SITL (120 per-mission records)
+
+The numerical results are provided as CSV files with summary statistics and a source-data directory for verification. See [naming conventions](datasets/ALGORITHM_AND_EXPERIMENT_NAMES.md) and [original data provenance](datasets/curated/README.md).
+
+## Source code
+
+MATLAB research code and experiment scripts are maintained in the repository, including the [frozen_20261022](frozen_20261022/README.md) snapshot. Some source files carry earlier development identifiers. Dataset file naming is standardized for the manuscript, while source snapshots remain unchanged for traceability.
+
+## Data use
+
+The numerical dataset is a curated copy of archived experiment results. Raw MAT archives, large PX4 ULogs and licensed third-party terrain files are stored separately. Reported mission-completion status and safety status are distinct fields; see the dataset README for interpretation and provenance.
