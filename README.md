@@ -1,26 +1,23 @@
 # ABDR-MOEA/D-DE
 
-**Experimental data and MATLAB research material for multiobjective UAV path planning**
+MATLAB implementation and experimental results for constrained multiobjective UAV path planning.
 
-ABDR-MOEA/D-DE combines block inheritance (**BI**), direction-quota replacement (**DQR**), and success-history differential-evolution parameter adaptation (**SHDE**) within the MOEA/D-DE framework.
+The proposed method combines **block inheritance (BI)**, **direction-quota replacement (DQR)**, and **success-history differential-evolution parameter adaptation (SHDE)**.
 
-## Research data
+## Repository structure
 
-The reviewer-facing dataset is in **[datasets/paper_results](datasets/paper_results/README.md)**, covering:
+- [`algorithm/`](algorithm/) — the proposed ABDR-MOEA/D-DE algorithm and the helper functions it requires.
+- [`experiments/`](experiments/) — experiment configuration, single-run and batch runners, statistical summary and PX4 results-analysis code.
+- [`datasets/paper_results/`](datasets/paper_results/) — numerical results associated with the manuscript (E01–E06).
 
-- E01 — Main algorithm comparison (1,320 runs)
-- E02 — Ablation experiments (960 runs)
-- E03 — Independent serial runtime (1,320 runs)
-- E04 — Crater Lake external-terrain evaluation (2,160 runs)
-- E05 — Mount St. Helens external-terrain evaluation (2,160 runs)
-- E06 — PX4-Gazebo SITL (120 per-mission records)
+**No implementations of competing algorithms are distributed here.** The benchmark CSVs retain competitors' observed numerical results for comparison.
 
-The numerical results are provided as CSV files with summary statistics and a source-data directory for verification. See [naming conventions](datasets/ALGORITHM_AND_EXPERIMENT_NAMES.md) and [original data provenance](datasets/curated/README.md).
+## MATLAB
 
-## Source code
+Tested source target: MATLAB R2024b. Call `ABDR_MOEAD_DE(params)` after adding `algorithm/` and `algorithm/core/` to the MATLAB path. Paper-scale runs use 30 solutions, 6000 function evaluations, and 30 repetitions per case. See [experiment instructions](experiments/README.md).
 
-MATLAB research code and experiment scripts are maintained in the repository, including the [frozen_20261022](frozen_20261022/README.md) snapshot. Some source files carry earlier development identifiers. Dataset file naming is standardized for the manuscript, while source snapshots remain unchanged for traceability.
+The repository stores compact numerical output, not large binary flight logs or third-party terrain rasters. Original shared initialization pools, licensed terrain inputs and reference sets must be supplied separately for an exact paper-protocol rerun.
 
-## Data use
+## Research results
 
-The numerical dataset is a curated copy of archived experiment results. Raw MAT archives, large PX4 ULogs and licensed third-party terrain files are stored separately. Reported mission-completion status and safety status are distinct fields; see the dataset README for interpretation and provenance.
+Use [the paper results index](datasets/paper_results/README.md) for experiment tables and CSV files. Raw numbers and recorded completion/safety flags are unchanged.

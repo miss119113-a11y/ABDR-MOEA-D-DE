@@ -1,5 +1,5 @@
-function [rep,best,history] = BIDR_CHAMPION_ENGINE(params)
-%NAV_APDP_MOEAD_DE_UAV APDP-MOEA/D-DE for four-objective UAV planning.
+function [rep,best,history] = ABDR_MOEAD_DE_ENGINE(params)
+%ABDR_MOEAD_DE_ENGINE Proposed MATLAB optimizer for UAV multiobjective path planning.
 %   The final PBA-DQRF line has three independently testable search blocks:
 %   PBB changes the single DE child's crossover mask according to the
 %   parent's worst-ranked physical objective; Success-History DE updates DE
@@ -516,8 +516,10 @@ for it = 1:params.MaxIt
     history.SampledCR{it} = sampledCR(1:generatedCount);
     history.EligibleSuccessCount(it) = successCount;
     contextCounts=zeros(1,4);
-    contextCounts(1:controllerContexts)=accumarray(max(successContext(1:successCount),1), ...
-        ones(successCount,1),[controllerContexts 1])';
+    if successCount > 0
+        contextCounts(1:controllerContexts)=accumarray(max(successContext(1:successCount),1), ...
+            ones(successCount,1),[controllerContexts 1])';
+    end
     history.ContextSuccessCount(it,:) = contextCounts;
     history.ActualSuccessCount(it) = successCount;
     history.SampledContext{it} = sampledContext(1:generatedCount);
@@ -540,8 +542,8 @@ end
 best = NAV_SelectCompromiseSolution(rep,params.reportWeights);
 history.RuntimeSec = toc(tStart);
 history.CodexGuideUseTotal=codexGuideUseTotal;
-history.Algorithm = 'BI-MOEA/D-DE';
-history.CandidateVersion = 'BI-MOEA/D-DE-20261022-FROZEN';
+history.Algorithm = 'ABDR-MOEA/D-DE';
+history.CandidateVersion = 'ABDR-MOEA/D-DE';
 history.EnableAPB = logical(params.EnableAPB);
 history.EnableDQR = logical(params.EnableDQR);
 history.AdaptiveDE = logical(params.AdaptiveDE);
