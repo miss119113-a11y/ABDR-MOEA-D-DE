@@ -1,15 +1,17 @@
-# Proposed algorithm: ABDR-MOEA/D-DE
+# ABDR-MOEA/D-DE MATLAB algorithm
 
-- `ABDR_MOEAD_DE.m` — single public MATLAB entry point.
-- `ABDR_MOEAD_DE_ENGINE.m` — current optimization engine.
-- `core/` — the directly required evaluation, geometry, constraints, Pareto, BI/DQR and success-history parameter-adaptation helper functions.
+**Entry point:** `ABDR_MOEAD_DE.m`
 
-The algorithm's MATLAB implementation and its numerical operations are unchanged by the repository layout update. Historical helper identifiers appearing inside the retained source are not separate algorithms or independently distributed comparator implementations.
+**Main engine:** `ABDR_MOEAD_DE_ENGINE.m`
+
+**Required helper:** `core/CODEX_ARCHIVE_GUIDE.m` (original audited implementation now restored, because the default `CodexArchiveGuide=true` path invokes it).
+
+Other `core/` MATLAB files provide objectives/constraints, geometry, block crossover, direction-quota replacement, SHDE, and archive operations. No separate comparator optimizers or iteration snapshots are included.
 
 ```matlab
-addpath('algorithm', 'algorithm/core', 'experiments');
-p = ABDR_Config(260825101);
-[archive,best,history] = ABDR_MOEAD_DE(p);
+addpath('algorithm','algorithm/core','experiments');
+p=ABDR_Config(260825101);
+[archive,best,history]=ABDR_MOEAD_DE(p);
 ```
 
-For a manuscript-matched run, use `ABDR_Run_One` / `ABDR_Run_Experiments` with the original shared initialization pool and scenario inputs instead of relying on a bare optimizer invocation.
+For manuscript-aligned experiments use `ABDR_Run_One` / `ABDR_Run_Experiments` with the original initialization pools and terrain. The algorithm engine was not rewritten during result reorganization. The current configured `TriadPBB` objective-pressure selector uses Tchebycheff contributions and is not identical to a rank-only selector; the manuscript/source difference is a remaining scientific provenance matter.

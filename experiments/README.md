@@ -1,39 +1,26 @@
-# Experiment code
+# MATLAB experiment scripts and validation
 
-The experiment folder contains code for the **proposed ABDR-MOEA/D-DE method** and scripts for reading recorded paper results. No competing algorithm source code is included.
-
-| Script | Function |
+| File | Purpose |
 |---|---|
-| `ABDR_Config.m` | Current proposed-method settings. |
-| `ABDR_Run_One.m` | One MATLAB run with an exact 6000-FE requirement. |
-| `ABDR_Run_Experiments.m` | Proposed-method main, ablation, runtime or external-terrain runs. |
-| `ABDR_Review_Results.m` | Calculate group means and SD from E01 or another run CSV. |
-| `ABDR_Review_PX4.m` | Summarize mission completion, tracking and safety flags. |
-| `ABDR_Verify_Results.py` | Validate E01–E06 CSV record counts and expected experiment group sizes using Python 3. |
+| `ABDR_Config.m` | Current optimizer settings |
+| `ABDR_Run_One.m` | One proposed-method run with exact FE budget |
+| `ABDR_Run_Experiments.m` | Four main scenarios, eight ablation variants, runtime, or external DEM tests |
+| `ABDR_Review_Results.m` | Means/SD of stored optimization results |
+| `ABDR_Review_PX4.m` | Reads the corrected E06 paper mission cohort and reports completion, tracking, safety and mean metrics |
+| `ABDR_Verify_Results.py` | Checks paper result counts, group sizes and PX4 against saved summaries |
+| `ABDR_Extract_PX4.py` | Extracts paper-matched PX4 gzip CSV into ordinary CSV |
 
-## MATLAB R2024b
-
-```matlab
-addpath('algorithm', 'algorithm/core', 'experiments');
-opts.PoolDir = 'PATH_TO_ORIGINAL_SHARED_POOLS';
-opts.OutputDir = 'PATH_TO_NEW_OUTPUT';
-% opts.ReferenceDir = 'PATH_TO_REFERENCE_FRONTS';
-T = ABDR_Run_Experiments('main', opts);
-```
-
-Other proposed-method tasks: `ABDR_Run_Experiments('ablation',opts)` (8 configurations × 4 scenarios × 30), `ABDR_Run_Experiments('runtime',opts)` (4 × 30), and `ABDR_Run_Experiments('crater',opts)` / `ABDR_Run_Experiments('mount',opts)` (12 × 30 each). Set `opts.TerrainFile` to the respective DEM for external terrain experiments. Original scenario definitions and shared pools must match those used for the archived results.
-
-These MATLAB runners **do not execute competitors**. E01/E03/E04/E05 already contain competitors' saved numerical results, so they can be reviewed without those implementations.
-
-## Review saved results without rerunning
-
-```matlab
-S = ABDR_Review_Results();
-F = ABDR_Review_PX4();
-```
-
+Run:
 ```bash
 python experiments/ABDR_Verify_Results.py
+python experiments/ABDR_Extract_PX4.py
 ```
-
-Python requires no third-party packages. The verification script never changes a recorded CSV. The PX4 script reports completion and safety as distinct outcomes; it does not run the PX4/Gazebo simulator.
+MATLAB R2024b:
+```matlab
+addpath('experiments','algorithm','algorithm/core');
+opts.PoolDir='PATH_TO_ORIGINAL_SHARED_POOLS';
+opts.OutputDir='PATH_TO_OUTPUT';
+T=ABDR_Run_Experiments('main',opts);
+S=ABDR_Review_PX4();
+```
+Other tasks are `'ablation'`, `'runtime'`, `'crater'`, and `'mount'`. External terrain runs require source-matched terrain files and scenario definitions. These scripts do not include third-party algorithm implementations or a complete PX4/Gazebo simulator.
