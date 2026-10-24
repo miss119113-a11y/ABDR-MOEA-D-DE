@@ -1,5 +1,8 @@
 # Numerical experiment results
 
+**Tables 2–9 in the submitted manuscript's exact display format** are available in [paper_tables/](paper_tables/). Original run-level measurements and full-precision statistics below remain unchanged.
+
+
 All numeric data are provided as recorded, organized by experiment.
 
 | ID | Experiment | Run-level data | Statistics |

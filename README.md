@@ -56,6 +56,9 @@ The standard experimental budget is **6000 objective-function evaluations**, wit
 
 ## Experimental results
 
+**Manuscript tables (Tables 2–9):** [paper-format CSV tables](results/paper_tables/) reproduce the values, significance symbols, and summary counts printed in the submitted IEEE Access manuscript. Full-precision per-run/mission records are retained below.
+
+
 The `results/` directory provides original recorded metrics for E01–E06:
 
 | Experiment | Coverage |
